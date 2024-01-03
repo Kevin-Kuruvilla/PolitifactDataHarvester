@@ -2,14 +2,6 @@ from requests import get
 from bs4 import BeautifulSoup
 import csv
 
-# converts labels to binary values 
-def label_to_numeric(label):
-    false_labels = ['false', 'mostly-true', 'pants-fire']
-    if label in false_labels:
-        return 0
-    else:
-        return 1
-
 base_url = 'https://www.politifact.com/factchecks/?page='
 all_quotes = []
 all_labels = []
@@ -27,7 +19,6 @@ for page in range(1, 801):
     # get labels from html
     label_html = soup.find_all('div', class_='m-statement__meter')
     labels = [label.find('img')['alt'].strip() for label in label_html]
-    labels = [label_to_numeric(label) for label in labels]
 
     all_quotes.extend(quotes)
     all_labels.extend(labels)
